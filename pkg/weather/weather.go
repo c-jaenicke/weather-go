@@ -11,7 +11,8 @@ import (
 
 // GetWeatherData returns api response containing weather data
 func GetWeatherData(location string) (ApiResponse, string) {
-	var apiKey = getApiKey()
+	apiKey := getApiKey()
+	//var apiKey = getApiKey()
 	lat, lon, name := geocodeLocation(location)
 	url := fmt.Sprintf("https://api.openweathermap.org/data/2.5/onecall?lat=%f&lon=%f&exclude=minutely,daily,alerts&appid=%s&units=metric", lat, lon, apiKey)
 
@@ -22,9 +23,23 @@ func GetWeatherData(location string) (ApiResponse, string) {
 	return responseObject, name
 }
 
+func GetForecast(location string) (ForecastResponse, string) {
+	apiKey := getApiKey()
+	lat, lon, name := geocodeLocation(location)
+	// https://openweathermap.org/forecast5
+	url := fmt.Sprintf("https://api.openweathermap.org/data/2.5/forecast?lat=%f&lon=%f&appid=%s&units=metric&cnt=10", lat, lon, apiKey)
+	responseData := request.Request(url)
+
+	var responseObject ForecastResponse
+	json.Unmarshal(responseData, &responseObject)
+
+	return responseObject, name
+}
+
 // geocodeLocation uses api to turn location into coordinates and name
 func geocodeLocation(location string) (lat float64, lon float64, name string) {
-	var apiKey = getApiKey()
+	apiKey := getApiKey()
+	//var apiKey = getApiKey()
 
 	url := fmt.Sprintf("http://api.openweathermap.org/geo/1.0/direct?q=%s&limit=1&appid=%s", location, apiKey)
 	responseData := request.Request(url)
