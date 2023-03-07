@@ -92,6 +92,7 @@ func (m Model) View() string {
 
 	} else {
 		views := []string{
+			title.Copy().Align(lipgloss.Left).Render("Weather-go"),
 			inputbox.Copy().Align(lipgloss.Left).Render(m.textInput.View()),
 			box.Copy().Align(lipgloss.Left).Render(m.weather),
 			box.Copy().Align(lipgloss.Left).Render(m.forecastTable.View()),

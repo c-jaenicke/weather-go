@@ -17,9 +17,13 @@ func main() {
 	// gets flags
 	var pathEnv string
 	var location string
-	flag.StringVar(&pathEnv, "env", "./.env", "Path to .env file containing api key and optional location")
+	flag.StringVar(&pathEnv, "env", "", "Path to .env file containing api key and optional location")
 	flag.StringVar(&location, "location", "", "Set location to get weather")
 	flag.Parse()
+
+	if pathEnv == "" {
+		log.Fatal("No .env file specified! Exiting...")
+	}
 
 	env.Path = pathEnv
 
