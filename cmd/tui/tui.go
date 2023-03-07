@@ -8,6 +8,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"strconv"
+	"time"
 	"weather-go/pkg/weather"
 )
 
@@ -17,6 +18,7 @@ type Model struct {
 	location      string          // location to get weather and forecast for
 	weather       string          // current weather string
 	err           error           // optional error string to display to user
+	timeRequest   string          // timestamp of last request as string
 }
 
 func (m Model) Init() tea.Cmd {
@@ -66,6 +68,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.location = m.textInput.Value()
 				m.weather, m.location, m.err = currentWeather(m)
 				m.forecastTable = m.makeTable()
+				m.timeRequest = m.getTime()
 			}
 
 		}
@@ -97,9 +100,6 @@ func (m Model) View() string {
 				title.Copy().Align(lipgloss.Left).Render("Weather-go"),
 				inputbox.Copy().Align(lipgloss.Left).Render(m.textInput.View()),
 				warning.Copy().Align(lipgloss.Center).Render(m.err.Error()),
-				box.Copy().Align(lipgloss.Left).Render("Weather for " + m.location),
-				box.Copy().Align(lipgloss.Left).Render(m.weather),
-				box.Copy().Align(lipgloss.Left).Render(m.forecastTable.View()),
 			}
 		} else {
 			views = []string{
@@ -112,7 +112,7 @@ func (m Model) View() string {
 		}
 
 		return fmt.Sprintf("%s"+
-			"\n\n%s", lipgloss.JoinVertical(lipgloss.Top, views...), helpString)
+			"\n\n%s\n%s", lipgloss.JoinVertical(lipgloss.Top, views...), helpString, fmt.Sprintf("Last Refresh at %s", m.timeRequest))
 	}
 }
 
@@ -148,4 +148,9 @@ func (m Model) makeTable() table.Model {
 	forecastTable.SetStyles(tableStyle)
 
 	return forecastTable
+}
+
+func (m Model) getTime() string {
+	dt := time.Now()
+	return dt.Format("2006-01-02 15-01-05")
 }
