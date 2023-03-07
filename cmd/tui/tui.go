@@ -37,7 +37,7 @@ func initialModel() Model {
 	}
 
 	input.Focus()
-	input.Width = 80
+	input.Width = widthMax
 
 	return Model{
 		textInput: input,
@@ -91,12 +91,24 @@ func (m Model) View() string {
 			"\n\n%s", lipgloss.JoinVertical(lipgloss.Top, views...), m.err, helpString)
 
 	} else {
-		views := []string{
-			title.Copy().Align(lipgloss.Left).Render("Weather-go"),
-			inputbox.Copy().Align(lipgloss.Left).Render(m.textInput.View()),
-			box.Copy().Align(lipgloss.Left).Render("Weather for " + m.location),
-			box.Copy().Align(lipgloss.Left).Render("Current Weather\n" + m.weather),
-			box.Copy().Align(lipgloss.Left).Render("24 hour Forecast\n" + m.forecastTable.View()),
+		var views []string
+		if m.err != nil {
+			views = []string{
+				title.Copy().Align(lipgloss.Left).Render("Weather-go"),
+				inputbox.Copy().Align(lipgloss.Left).Render(m.textInput.View()),
+				warning.Copy().Align(lipgloss.Center).Render(m.err.Error()),
+				box.Copy().Align(lipgloss.Left).Render("Weather for " + m.location),
+				box.Copy().Align(lipgloss.Left).Render(m.weather),
+				box.Copy().Align(lipgloss.Left).Render(m.forecastTable.View()),
+			}
+		} else {
+			views = []string{
+				title.Copy().Align(lipgloss.Left).Render("Weather-go"),
+				inputbox.Copy().Align(lipgloss.Left).Render(m.textInput.View()),
+				box.Copy().Align(lipgloss.Left).Render("Weather for " + m.location),
+				box.Copy().Align(lipgloss.Left).Render(m.weather),
+				box.Copy().Align(lipgloss.Left).Render(m.forecastTable.View()),
+			}
 		}
 
 		return fmt.Sprintf("%s"+
@@ -117,8 +129,8 @@ func (m Model) makeTable() table.Model {
 	}
 
 	columns := []table.Column{
-		{Title: "Time", Width: 35},
-		{Title: "Temp.", Width: 10},
+		{Title: "Time", Width: 30},
+		{Title: "Temp.", Width: 5},
 		{Title: "Weather", Width: 20},
 		{Title: "Humid.", Width: 5},
 		{Title: "Pressure", Width: 10},
@@ -126,7 +138,14 @@ func (m Model) makeTable() table.Model {
 	forecastTable := table.New(
 		table.WithColumns(columns),
 		table.WithRows(rows),
+		table.WithFocused(false),
+		table.WithHeight(12),
 	)
+
+	// set styling of table
+	tableStyle.Header = tableStyle.Header.BorderStyle(lipgloss.NormalBorder()).BorderForeground(lipgloss.Color("foreground")).BorderBottom(true).Bold(true)
+	tableStyle.Selected = tableStyle.Selected.Foreground(lipgloss.Color("foreground")).Bold(false)
+	forecastTable.SetStyles(tableStyle)
 
 	return forecastTable
 }
