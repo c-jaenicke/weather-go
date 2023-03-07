@@ -14,10 +14,18 @@ func main() {
 	var location string
 	var mode string
 	var pathEnv string
-	flag.StringVar(&location, "location", "New York", "Set location to get weather")
+	flag.StringVar(&location, "location", "", "Set location to get weather")
 	flag.StringVar(&mode, "mode", "small", "Set output mode\nsmall: Print single line consisting of location name, temperature, weather\nfull: Prints full data of current weather")
-	flag.StringVar(&pathEnv, "env", "./.env", "Path to .env file containing api key and optional location")
+	flag.StringVar(&pathEnv, "env", "", "Path to .env file containing api key and optional location")
 	flag.Parse()
+
+	if pathEnv == "" {
+		log.Fatal("Missing path to .env file! Exiting ...")
+	}
+
+	if location == "" {
+		log.Fatal("No location given! Exiting ...")
+	}
 
 	// give path to env module
 	env.Path = pathEnv
@@ -31,7 +39,10 @@ func main() {
 		}
 	}
 
-	weatherData, locationName := weather.GetWeatherData(location)
+	weatherData, locationName, err := weather.GetWeatherData(location)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 	var data = ""
 
 	switch mode {
@@ -50,7 +61,11 @@ func main() {
 		data = currentWeather
 
 	case "forecast":
-		forecast, name := weather.GetForecast(location)
+		forecast, name, err := weather.GetForecast(location)
+		if err != nil {
+			log.Println(err.Error())
+		}
+
 		message := fmt.Sprintf("Forecast for %s:\n", name)
 
 		for _, item := range forecast.List {
