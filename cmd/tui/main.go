@@ -14,12 +14,16 @@ import (
 )
 
 func main() {
+	// gets flags
 	var pathEnv string
+	var location string
 	flag.StringVar(&pathEnv, "env", "./.env", "Path to .env file containing api key and optional location")
+	flag.StringVar(&location, "location", "", "Set location to get weather")
 	flag.Parse()
 
 	env.Path = pathEnv
 
+	// start bubbletea
 	p := tea.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
 		log.Fatal(err)
@@ -27,20 +31,43 @@ func main() {
 	}
 }
 
-// currentWeather gets current weather from a location, returns as formatted string
-func currentWeather(m Model) string {
-	weatherData, locationName := weather.GetWeatherData(m.location)
-	return fmt.Sprintf("%s: \n\t%s, %s\n\tTemperature: %s °C\n\tHumidity: %d hpa\n\tPressure: %d\n\tWind: %f m/s from %d", locationName, weatherData.Current.Weather[0].Main, weatherData.Current.Weather[0].Description, strconv.FormatFloat(weatherData.Current.Temp, 'f', -1, 64), weatherData.Current.Humidity, weatherData.Current.Pressure, weatherData.Current.WindSpeed, weatherData.Current.WindDeg)
+func currentWeather(m Model) (string, string, error) {
+	weatherData, locationName, err := weather.GetWeatherData(m.location)
+	if err != nil {
+		log.Println("currentWeather: failed to get current weather: " + err.Error())
+		return "", m.location, err
+	}
+	return fmt.Sprintf("%s, %s"+
+			"\nTemperature: %s °C"+
+			"\nHumidity: %d hpa"+
+			"\nPressure: %d"+
+			"\nWind: %s m/s from %d",
+			weatherData.Current.Weather[0].Main,
+			weatherData.Current.Weather[0].Description,
+			shortenFloat(weatherData.Current.Temp),
+			weatherData.Current.Humidity,
+			weatherData.Current.Pressure,
+			shortenFloat(weatherData.Current.WindSpeed),
+			weatherData.Current.WindDeg),
+		locationName, nil
 }
 
-func getForecast(m Model) string {
-	forecastObject, _ := weather.GetForecast(m.location)
+// getForecast returns forecast as table.Model.View() string
+func getForecast(m Model) (string, error) {
+	forecastObject, _, err := weather.GetForecast(m.location)
+	if err != nil {
+		log.Println("getForecast: failed to get forecast: " + err.Error())
+		return "", err
+	}
 
 	var sb strings.Builder
 
 	fmt.Println(len(forecastObject.List))
 
-	for _, i := range forecastObject.List {
+	for index, i := range forecastObject.List {
+		if index == 5 {
+			break
+		}
 		text := fmt.Sprintf("\n%s"+
 			"\n%s"+
 			"\n\tTemp: %s °C"+
@@ -52,7 +79,7 @@ func getForecast(m Model) string {
 		sb.WriteString(text)
 	}
 
-	return sb.String()
+	return sb.String(), nil
 }
 
 // unixToDateTime transforms unix time as int to a datetime string, formatted as "YYYY-MM-DD HH-MM UTC-OFFSET TIMEZONE"
