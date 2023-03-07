@@ -94,8 +94,9 @@ func (m Model) View() string {
 		views := []string{
 			title.Copy().Align(lipgloss.Left).Render("Weather-go"),
 			inputbox.Copy().Align(lipgloss.Left).Render(m.textInput.View()),
-			box.Copy().Align(lipgloss.Left).Render(m.weather),
-			box.Copy().Align(lipgloss.Left).Render(m.forecastTable.View()),
+			box.Copy().Align(lipgloss.Left).Render("Weather for " + m.location),
+			box.Copy().Align(lipgloss.Left).Render("Current Weather\n" + m.weather),
+			box.Copy().Align(lipgloss.Left).Render("24 hour Forecast\n" + m.forecastTable.View()),
 		}
 
 		return fmt.Sprintf("%s"+

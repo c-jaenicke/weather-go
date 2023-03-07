@@ -5,6 +5,10 @@ A small TUI version of the widget version, displays current weather and 24 hour 
 Built using [charmbracelet/bubbletea](https://github.com/charmbracelet/bubbletea)
 and [charmbracelet/lipgloss](https://github.com/charmbracelet/lipgloss).
 
+## Screenshot
+
+![screenshot](https://raw.githubusercontent.com/c-jaenicke/weather-go/main/images/tui.png)
+
 ## Usage
 
 Call the application using `./tui -env <path to .env file>`.
