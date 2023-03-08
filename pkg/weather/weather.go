@@ -65,7 +65,7 @@ func geocodeLocation(location string) (lat float64, lon float64, name string, er
 	if len(responseObject) == 0 {
 		return 0, 0, "", fmt.Errorf("failed to find valid location")
 	} else {
-		return responseObject[0].Lat, responseObject[0].Lon, responseObject[0].Name, nil
+		return responseObject[0].Lat, responseObject[0].Lon, responseObject[0].Name + ", " + responseObject[0].Country, nil
 	}
 }
 
