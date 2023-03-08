@@ -15,8 +15,8 @@ func main() {
 	var mode string
 	var pathEnv string
 	var emojis bool
-	flag.StringVar(&location, "location", "", "Set location to get weather")
-	flag.StringVar(&mode, "mode", "small", "Set output mode\nsmall: Print single line consisting of location name, temperature, weather\nfull: Prints full data of current weather")
+	flag.StringVar(&location, "location", "", "Set location to get weather.\nCan use '.env' as value, doing so will load the location from the given .env file")
+	flag.StringVar(&mode, "mode", "small", "Set output mode\nsmall: Print single line consisting of location name, temperature, weather\nfull: Prints full data of current weather\nforecast: Prints a 24 hour forecast for the location")
 	flag.StringVar(&pathEnv, "env", "", "Path to .env file containing api key and optional location")
 	flag.BoolVar(&emojis, "emojis", false, "Enable icons, disabled by default. Requires an emoji font to be installed and enabled!")
 	flag.Parse()
