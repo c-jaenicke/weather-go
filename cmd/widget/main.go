@@ -14,9 +14,11 @@ func main() {
 	var location string
 	var mode string
 	var pathEnv string
+	var emojis bool
 	flag.StringVar(&location, "location", "", "Set location to get weather")
 	flag.StringVar(&mode, "mode", "small", "Set output mode\nsmall: Print single line consisting of location name, temperature, weather\nfull: Prints full data of current weather")
 	flag.StringVar(&pathEnv, "env", "", "Path to .env file containing api key and optional location")
+	flag.BoolVar(&emojis, "emojis", false, "Enable icons, disabled by default. Requires an emoji font to be installed and enabled!")
 	flag.Parse()
 
 	if pathEnv == "" {
@@ -47,7 +49,13 @@ func main() {
 
 	switch mode {
 	case "small":
-		currentWeather := fmt.Sprintf("%s: %s °C %s", locationName, shortenFloat(weatherData.Current.Temp), weatherData.Current.Weather[0].Description)
+		var currentWeather string
+		if emojis {
+			currentWeather = fmt.Sprintf("%s: %s °C %s %s", locationName, shortenFloat(weatherData.Current.Temp), weatherData.Current.Weather[0].Description, weather.IconMap[weatherData.Current.Weather[0].ID])
+		} else {
+			currentWeather = fmt.Sprintf("%s: %s °C %s", locationName, shortenFloat(weatherData.Current.Temp), weatherData.Current.Weather[0].Description)
+		}
+
 		data = currentWeather
 
 	case "full":
