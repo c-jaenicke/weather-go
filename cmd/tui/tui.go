@@ -150,6 +150,7 @@ func (m Model) makeTable() table.Model {
 	return forecastTable
 }
 
+// getTime gets current time, used for tracking last refresh
 func (m Model) getTime() string {
 	dt := time.Now()
 	return dt.Format("2006-01-02 15-01-05")

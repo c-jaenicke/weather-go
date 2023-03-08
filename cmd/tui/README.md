@@ -1,6 +1,6 @@
 # weather-go - TUI
 
-A small TUI version of the widget version, displays current weather and 24 hour forecast.
+A small TUI version of the widget version, displays current weather and 24-hour forecast.
 
 Built using [charmbracelet/bubbletea](https://github.com/charmbracelet/bubbletea)
 and [charmbracelet/lipgloss](https://github.com/charmbracelet/lipgloss).
@@ -12,13 +12,17 @@ and [charmbracelet/lipgloss](https://github.com/charmbracelet/lipgloss).
 ## Usage
 
 Call the application using `./tui -env <path to .env file>`.
+Optionally you can call the application using `./tui -env <path to .env file> -location <location>`, you get a
+pre-entered location in the input field. The `-location` value can also be set to `-location .env`, the location will be
+used as specified in the .env file.
 
 Enter your location in the input box and confirm using the enter key.
 
 ## .env File
 
 The `.env`-file has to at least contain the `API_KEY` value, mapped to your OpenWeatherMap API Key!
-The `location` value is optional, in case you don't want to call the script with the location. When doing so, the script needs to be called with `.env` as the location parameter!
+The `location` value is optional, in case you don't want to call the script with the location. When doing so, the script
+needs to be called with `.env` as the location parameter!
 
 ```.env
 # Example .env file
