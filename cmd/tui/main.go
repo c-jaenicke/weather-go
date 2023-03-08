@@ -27,6 +27,15 @@ func main() {
 
 	env.Path = pathEnv
 
+	// get location from .env file if ".env" given as location
+	if location == ".env" {
+		var err error
+		location, err = env.GetEnv("LOCATION")
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+	}
+
 	// start bubbletea
 	p := tea.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
