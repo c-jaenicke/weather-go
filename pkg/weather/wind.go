@@ -2,6 +2,7 @@ package weather
 
 import "math"
 
+// directions contains is a slice of compass designations
 var directions = []string{
 	"N",
 	"NNE",
@@ -21,10 +22,9 @@ var directions = []string{
 	"NNW",
 }
 
-// WindDegreesToDirection transforms given in degrees into a direction
+// WindDegreesToDirection transforms degrees (0 - 360)  into the corresponding compass designation.
 func WindDegreesToDirection(degrees int) string {
 	temp := math.Floor((float64(degrees) / 22.5) + 0.5)
-	index := int(temp) % 16
 
-	return directions[index]
+	return directions[(int(temp) % 16)]
 }

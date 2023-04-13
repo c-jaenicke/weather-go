@@ -30,6 +30,7 @@ func GetWeatherData(location string) (*ApiResponse, string, error) {
 	return &responseObject, name, nil
 }
 
+// GetForecast retrieves the weather forecast for a given location.
 func GetForecast(location string) (*ForecastResponse, string, error) {
 	apiKey := getApiKey()
 	lat, lon, name, err := geocodeLocation(location)
@@ -52,7 +53,7 @@ func GetForecast(location string) (*ForecastResponse, string, error) {
 	return &responseObject, name, nil
 }
 
-// geocodeLocation uses api to turn location into coordinates and name
+// geocodeLocation uses api to turn location into coordinates
 func geocodeLocation(location string) (lat float64, lon float64, name string, err error) {
 	apiKey := getApiKey()
 
@@ -69,7 +70,7 @@ func geocodeLocation(location string) (lat float64, lon float64, name string, er
 	}
 }
 
-// getApiKey get api key form .env file
+// getApiKey get api key from .env file
 func getApiKey() string {
 	apiKey, err := env.GetEnv("API_KEY")
 	if err != nil {
