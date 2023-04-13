@@ -88,8 +88,14 @@ func main() {
 				"\n\tTemp: %s °C"+
 				"\n\tHumidity: %d%%"+
 				"\n\tPressure: %d hpa"+
-				"\n\tWind: %s m/s from %d"+
-				"\n\n", unixToDateTime(item.Dt), item.Weather[0].Description, shortenFloat(item.Main.Temp), item.Main.Humidity, item.Main.Pressure, shortenFloat(item.Wind.Speed), item.Wind.Deg)
+				"\n\tWind: %s m/s from %s"+
+				"\n\n",
+				unixToDateTime(item.Dt),
+				item.Weather[0].Description,
+				shortenFloat(item.Main.Temp),
+				item.Main.Humidity,
+				item.Main.Pressure,
+				shortenFloat(item.Wind.Speed), weather.WindDegreesToDirection(item.Wind.Deg))
 		}
 
 		data = message
