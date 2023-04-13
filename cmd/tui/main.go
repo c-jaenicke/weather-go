@@ -18,7 +18,7 @@ func main() {
 	var pathEnv string
 	var location string
 	flag.StringVar(&pathEnv, "env", "", "Path to .env file containing api key and optional location")
-	flag.StringVar(&location, "location", "", "Set location to get weather")
+	flag.StringVar(&location, "location", "", "Set location to get weather.\nExpected format: <city_name,state_code,country_code>\nCan use '.env' as value, doing so will load the location from the given .env file")
 	flag.Parse()
 
 	if pathEnv == "" {

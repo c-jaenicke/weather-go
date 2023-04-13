@@ -31,7 +31,7 @@ func initialModel() Model {
 	location := ""
 	if flag.Lookup("location").Value.String() == "" {
 		location = ""
-		input.Placeholder = "e.g. New York"
+		input.Placeholder = "e.g. New York (expected format <city_name,state_code,country_code>)"
 	} else {
 		location = flag.Lookup("location").Value.String()
 		input.Placeholder = location
