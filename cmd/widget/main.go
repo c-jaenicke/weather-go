@@ -64,7 +64,13 @@ func main() {
 			"\n\tTemperature: %s °C"+
 			"\n\tHumidity: %d%%"+
 			"\n\tPressure: %d hpa"+
-			"\n\tWind: %f m/s from %d", locationName, weatherData.Current.Weather[0].Main, weatherData.Current.Weather[0].Description, shortenFloat(weatherData.Current.Temp), weatherData.Current.Humidity, weatherData.Current.Pressure, weatherData.Current.WindSpeed, weatherData.Current.WindDeg)
+			"\n\tWind: %s m/s from %s",
+			locationName,
+			weatherData.Current.Weather[0].Main, weatherData.Current.Weather[0].Description,
+			shortenFloat(weatherData.Current.Temp),
+			weatherData.Current.Humidity,
+			weatherData.Current.Pressure,
+			shortenFloat(weatherData.Current.WindSpeed), weather.WindDegreesToDirection(weatherData.Current.WindDeg))
 
 		data = currentWeather
 
