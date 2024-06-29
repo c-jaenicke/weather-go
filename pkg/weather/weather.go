@@ -9,7 +9,7 @@ import (
 )
 
 // GetWeatherData returns api response containing weather data
-func GetWeatherData(location string) (*ApiResponse, string, error) {
+func GetWeatherData(location string) (*CurrentWeather, string, error) {
 	apiKey := getApiKey()
 	lat, lon, name, err := geocodeLocation(location)
 	if err != nil {
@@ -17,15 +17,15 @@ func GetWeatherData(location string) (*ApiResponse, string, error) {
 		return nil, "", err
 	}
 
-	url := fmt.Sprintf("https://api.openweathermap.org/data/2.5/onecall?lat=%f&lon=%f&exclude=minutely,daily,alerts&appid=%s&units=metric", lat, lon, apiKey)
+	url := fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&exclude=minutely,daily,alerts&appid=%s&units=metric", lat, lon, apiKey)
 	responseData := request.Request(url)
 
-	var responseObject ApiResponse
-	json.Unmarshal(responseData, &responseObject)
-	//if jsonError != nil {
-	//	log.Fatalf("GetWeatherData: failed to json unmarshal response: " + jsonError.Error())
-	//	return nil, "", err
-	//}
+	var responseObject CurrentWeather
+	jsonError := json.Unmarshal(responseData, &responseObject)
+	if jsonError != nil {
+		log.Fatalf("GetWeatherData: failed to json unmarshal response: " + jsonError.Error())
+		return nil, "", err
+	}
 
 	return &responseObject, name, nil
 }
@@ -44,11 +44,11 @@ func GetForecast(location string) (*ForecastResponse, string, error) {
 	responseData := request.Request(url)
 
 	var responseObject ForecastResponse
-	json.Unmarshal(responseData, &responseObject)
-	//if jsonError != nil {
-	//	log.Fatalf("GetForecast: failed to json unmarshal response: " + jsonError.Error())
-	//	return nil, "", jsonError
-	//}
+	jsonError := json.Unmarshal(responseData, &responseObject)
+	if jsonError != nil {
+		log.Fatalf("GetForecast: failed to json unmarshal response: " + jsonError.Error())
+		return nil, "", jsonError
+	}
 
 	return &responseObject, name, nil
 }

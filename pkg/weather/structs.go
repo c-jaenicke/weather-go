@@ -1,5 +1,33 @@
 package weather
 
+type CurrentWeather struct {
+	Coord      Coord     `json:"coord"`
+	Weather    []Weather `json:"weather"`
+	Base       string    `json:"base"`
+	Main       Main      `json:"main"`
+	Visibility int       `json:"visibility"`
+	Wind       Wind      `json:"wind"`
+	Clouds     Clouds    `json:"clouds"`
+	Dt         int       `json:"dt"`
+	Sys        Sys       `json:"sys"`
+	Timezone   int       `json:"timezone"`
+	ID         int       `json:"id"`
+	Name       string    `json:"name"`
+	Cod        int       `json:"cod"`
+}
+
+type Main struct {
+	Temp      float64 `json:"temp"`
+	FeelsLike float64 `json:"feels_like"`
+	TempMin   float64 `json:"temp_min"`
+	TempMax   float64 `json:"temp_max"`
+	Pressure  int     `json:"pressure"`
+	SeaLevel  int     `json:"sea_level"`
+	GrndLevel int     `json:"grnd_level"`
+	Humidity  int     `json:"humidity"`
+	TempKf    float64 `json:"temp_kf"`
+}
+
 type ForecastResponse struct {
 	Cod     string `json:"cod"`
 	Message int    `json:"message"`
@@ -63,14 +91,15 @@ type City struct {
 }
 
 // ApiResponse struct symbolising standard response of API
-type ApiResponse struct {
-	Lat            float64  `json:"lat"`
-	Lon            float64  `json:"lon"`
-	Timezone       string   `json:"timezone"`
-	TimezoneOffset int      `json:"timezone_offset"`
-	Current        Current  `json:"current"`
-	Hourly         []Hourly `json:"hourly"`
-}
+// RESPONSE By onecall 2.5 deprecated
+//type ApiResponse struct {
+//	Lat            float64  `json:"lat"`
+//	Lon            float64  `json:"lon"`
+//	Timezone       string   `json:"timezone"`
+//	TimezoneOffset int      `json:"timezone_offset"`
+//	Current        Current  `json:"current"`
+//	Hourly         []Hourly `json:"hourly"`
+//}
 
 // Weather struct symbolising a weather
 type Weather struct {

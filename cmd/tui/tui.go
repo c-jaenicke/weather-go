@@ -7,6 +7,7 @@ import (
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"log"
 	"strconv"
 	"time"
 	"weather-go/pkg/weather"
@@ -120,6 +121,7 @@ func (m Model) View() string {
 func (m Model) makeTable() table.Model {
 	forecastObj, _, err := weather.GetForecast(m.location)
 	if err != nil {
+		log.Println(err)
 		return table.New()
 	}
 

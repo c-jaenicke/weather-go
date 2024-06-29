@@ -55,13 +55,13 @@ func currentWeather(m Model) (string, string, error) {
 			"\nHumidity: %d hpa"+
 			"\nPressure: %d"+
 			"\nWind: %s m/s from %d",
-			weatherData.Current.Weather[0].Main,
-			weatherData.Current.Weather[0].Description,
-			shortenFloat(weatherData.Current.Temp),
-			weatherData.Current.Humidity,
-			weatherData.Current.Pressure,
-			shortenFloat(weatherData.Current.WindSpeed),
-			weatherData.Current.WindDeg),
+			weatherData.Weather[0].Main,
+			weatherData.Weather[0].Description,
+			shortenFloat(weatherData.Main.Temp),
+			weatherData.Main.Humidity,
+			weatherData.Main.Humidity,
+			shortenFloat(weatherData.Wind.Speed),
+			weatherData.Wind.Deg),
 		locationName, nil
 }
 

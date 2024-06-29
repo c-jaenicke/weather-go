@@ -52,9 +52,9 @@ func main() {
 	case "small":
 		var currentWeather string
 		if emojis {
-			currentWeather = fmt.Sprintf("%s: %s °C %s %s", locationName, shortenFloat(weatherData.Current.Temp), weatherData.Current.Weather[0].Description, weather.IconMap[weatherData.Current.Weather[0].ID])
+			currentWeather = fmt.Sprintf("%s: %s °C %s %s", locationName, shortenFloat(weatherData.Main.Temp), weatherData.Weather[0].Description, weather.IconMap[weatherData.Weather[0].ID])
 		} else {
-			currentWeather = fmt.Sprintf("%s: %s °C %s", locationName, shortenFloat(weatherData.Current.Temp), weatherData.Current.Weather[0].Description)
+			currentWeather = fmt.Sprintf("%s: %s °C %s", locationName, shortenFloat(weatherData.Main.Temp), weatherData.Weather[0].Description)
 		}
 
 		data = currentWeather
@@ -67,11 +67,13 @@ func main() {
 			"\n\tPressure: %d hpa"+
 			"\n\tWind: %s m/s from %s",
 			locationName,
-			weatherData.Current.Weather[0].Main, weatherData.Current.Weather[0].Description,
-			shortenFloat(weatherData.Current.Temp),
-			weatherData.Current.Humidity,
-			weatherData.Current.Pressure,
-			shortenFloat(weatherData.Current.WindSpeed), weather.WindDegreesToDirection(weatherData.Current.WindDeg))
+			weatherData.Weather[0].Main,
+			weatherData.Weather[0].Description,
+			shortenFloat(weatherData.Main.Temp),
+			weatherData.Main.Humidity,
+			weatherData.Main.Pressure,
+			shortenFloat(weatherData.Wind.Speed),
+			weather.WindDegreesToDirection(weatherData.Wind.Deg))
 
 		data = currentWeather
 
