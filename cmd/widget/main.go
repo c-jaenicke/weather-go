@@ -43,7 +43,8 @@ func main() {
 
 	weatherData, locationName, err := weather.GetWeatherData(location)
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Fatal("Error getting weather data")
+		// log.Fatal(err.Error())
 	}
 	var data = ""
 
@@ -77,7 +78,8 @@ func main() {
 	case "forecast":
 		forecast, name, err := weather.GetForecast(location)
 		if err != nil {
-			log.Println(err.Error())
+			log.Println("Error getting forecast")
+			// log.Println(err.Error())
 		}
 
 		message := fmt.Sprintf("Forecast for %s:\n", name)
