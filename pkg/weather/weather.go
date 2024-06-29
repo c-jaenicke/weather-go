@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"strings"
 	"weather-go/pkg/env"
 	"weather-go/pkg/request"
 )
@@ -56,6 +57,7 @@ func GetForecast(location string) (*ForecastResponse, string, error) {
 // geocodeLocation uses api to turn location into coordinates
 func geocodeLocation(location string) (lat float64, lon float64, name string, err error) {
 	apiKey := getApiKey()
+	location = strings.TrimSpace(location)
 
 	url := fmt.Sprintf("http://api.openweathermap.org/geo/1.0/direct?q=%s&limit=1&appid=%s", location, apiKey)
 	responseData := request.Request(url)

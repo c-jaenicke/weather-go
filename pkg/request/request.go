@@ -21,8 +21,7 @@ func Request(url string) []byte {
 	}
 
 	if response.StatusCode != 200 {
-		log.Println("Response was code was not 200 got: " + response.Status)
-		log.Println(string(responseData))
+		log.Println("request.go: Request to: " + url + "\nResponse was code was not 200 got: " + response.Status + "\nResponse body: " + string(responseData))
 		os.Exit(1)
 	}
 
