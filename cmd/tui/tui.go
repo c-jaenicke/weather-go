@@ -10,7 +10,7 @@ import (
 	"log"
 	"strconv"
 	"time"
-	"weather-go/pkg/weather"
+	"weather-go/internal/weather"
 )
 
 type Model struct {

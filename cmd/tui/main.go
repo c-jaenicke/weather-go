@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"weather-go/pkg/env"
-	"weather-go/pkg/weather"
+	"weather-go/internal/environment"
+	"weather-go/internal/weather"
 )
 
 func main() {
@@ -25,12 +25,12 @@ func main() {
 		log.Fatal("No .env file specified! Exiting...")
 	}
 
-	env.Path = pathEnv
+	environment.Path = pathEnv
 
 	// get location from .env file if ".env" given as location
 	if location == ".env" {
 		var err error
-		location, err = env.GetEnv("LOCATION")
+		location, err = environment.GetEnv("LOCATION")
 		if err != nil {
 			log.Fatal(err.Error())
 		}
